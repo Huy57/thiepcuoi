@@ -103,7 +103,7 @@ app.get('/api/health', (req, res) => {
 
 // Admin panel redirect
 app.get('/', (req, res) => {
-  res.redirect('/admin');
+  res.redirect('/wedding/index.html');
 });
 
 // Initialize database and start server
