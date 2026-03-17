@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m json.tool)",
+      "Bash(curl -s -X POST http://localhost:3001/wish -d \"name=NewWisher&email=test@test.com&content=Chuc mung hanh phuc!\")",
+      "Bash(curl -s -X POST http://localhost:3001/free-confirm -d \"name=TestGuest&phone=0999888777&event_ids[]=6940cad0b958151b4504168d&event_ids[]=6940cad0b958151b4504168c&attendance_status[]=1&attendance_status[]=2&plus_ones[]=3&plus_ones[]=0\")",
+      "Bash(curl -s http://localhost:3001/api/config)",
+      "Bash(curl -s http://localhost:3001/api/wishes)",
+      "Bash(curl -s -X POST http://localhost:3001/free-confirm -d \"name=TestFromBrowser&phone=0111222333&event_ids[]=6940cad0b958151b4504168d&attendance_status[]=1&plus_ones[]=2\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/wedding/index.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/wedding/rsvp.html)",
+      "Bash(curl -s -o /dev/null -w \"index.html: %{http_code}\\\\n\" http://localhost:3001/wedding/index.html)",
+      "Bash(curl -s -o /dev/null -w \"rsvp.html: %{http_code}\\\\n\" http://localhost:3001/wedding/rsvp.html)"
+    ]
+  }
+}

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Mời - Quang Minh & Đỗ Hương</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .invitation-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .invitation-header {
+            background: linear-gradient(135deg, #e91e63 0%, #ff5722 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .invitation-header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: #e91e63;
+            text-align: center;
+            padding: 20px;
+        }
+        .guest-name-box {
+            background: #fff3e0;
+            border: 2px dashed #ff9800;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px;
+            text-align: center;
+        }
+        .guest-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e65100;
+        }
+        .guest-code {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .event-details {
+            padding: 20px;
+        }
+        .event-item {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #e91e63;
+        }
+        .event-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        .event-info {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        .event-info i {
+            width: 20px;
+            color: #e91e63;
+        }
+        .confirm-section {
+            background: #fce4ec;
+            padding: 25px;
+            text-align: center;
+        }
+        .confirm-section h3 {
+            color: #c2185b;
+            margin-bottom: 20px;
+        }
+        .btn-confirm {
+            background: linear-gradient(135deg, #e91e63 0%, #ff5722 100%);
+            border: none;
+            padding: 12px 40px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+        }
+        .btn-confirm:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(233, 30, 99, 0.4);
+        }
+        .heart-divider {
+            text-align: center;
+            color: #e91e63;
+            font-size: 1.5rem;
+            padding: 10px;
+        }
+        .form-check-custom {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .form-check-custom:hover {
+            background: #fff8e1;
+        }
+        .form-check-custom.selected {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+        }
+        .success-message {
+            display: none;
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+        }
+        .success-message.show {
+            display: block;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: #4caf50;
+        }
+        .qr-section {
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="invitation-card">
+            <!-- Header -->
+            <div class="invitation-header">
+                <p class="mb-1">💒 THIỆP MỜI ĐÁM CƯỚI 💒</p>
+                <h1>Wedding Invitation</h1>
+            </div>
+
+            <!-- Couple Names -->
+            <div class="couple-names">
+                Quang Minh <span style="color:#ff9800">♥</span> Đỗ Hương
+            </div>
+
+            <div class="heart-divider">💕 💕 💕</div>
+
+            <!-- Guest Name -->
+            <div class="guest-name-box">
+                <p class="mb-1">Trân trọng kính mời</p>
+                <div class="guest-name" id="guestName">Nguyễn Văn An</div>
+                <div class="guest-code" id="guestCode">Mã khách: KM001</div>
+            </div>
+
+            <!-- Event Details -->
+            <div class="event-details">
+                <h5 class="text-center mb-3" style="color:#e91e63;">📅 THÔNG TIN SỰ KIỆN</h5>
+                
+                <div class="event-item">
+                    <div class="event-title">🎊 Tiệc Cưới Nhà Gái</div>
+                    <div class="event-info">
+                        <div>📍 Tư Gia Nhà Gái</div>
+                        <div>🕐 16:00, 28/03/2026</div>
+                    </div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-title">💒 Lễ Vu Quy</div>
+                    <div class="event-info">
+                        <div>📍 Tư Gia Nhà Gái</div>
+                        <div>🕐 09:00, 29/03/2026</div>
+                    </div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-title">🎊 Tiệc Cưới Nhà Trai</div>
+                    <div class="event-info">
+                        <div>📍 Tư Gia Nhà Trai</div>
+                        <div>🕐 16:30, 28/03/2026</div>
+                    </div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-title">💍 Lễ Thành Hôn</div>
+                    <div class="event-info">
+                        <div>📍 Tư Gia Nhà Trai</div>
+                        <div>🕐 10:00, 29/03/2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confirm Section -->
+            <div class="confirm-section" id="confirmSection">
+                <h3>🎉 XÁC NHẬN THAM DỰ</h3>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Bạn sẽ tham gia chứ?</label>
+                    <div class="form-check-custom" onclick="selectOption(this, 'yes')">
+                        <input class="form-check-input" type="radio" name="attendance" id="attendYes" value="yes">
+                        <label class="form-check-label" for="attendYes">
+                            ✅ Tôi sẽ tham gia
+                        </label>
+                    </div>
+                    <div class="form-check-custom" onclick="selectOption(this, 'no')">
+                        <input class="form-check-input" type="radio" name="attendance" id="attendNo" value="no">
+                        <label class="form-check-label" for="attendNo">
+                            ❌ Tôi không thể tham gia
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3" id="plusOneSection" style="display:none;">
+                    <label class="form-label fw-bold">Số người đi cùng:</label>
+                    <select class="form-select" id="plusOnes">
+                        <option value="0">Chỉ mình tôi</option>
+                        <option value="1">+1 người</option>
+                        <option value="2">+2 người</option>
+                        <option value="3">+3 người</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-danger btn-confirm" onclick="submitConfirm()">
+                    ✨ Xác Nhận ✨
+                </button>
+            </div>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">✅</div>
+                <h3 style="color:#4caf50;">Xác nhận thành công!</h3>
+                <p>Cảm ơn bạn đã xác nhận tham dự.<br>Chúng tôi rất vui được đón tiếp bạn!</p>
+                <a href="../index.html" class="btn btn-outline-success mt-3">← Về trang chủ</a>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="qr-section">
+                <p class="text-muted mb-2">💝 Mừng cưới qua QR Code</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=MungCuoi_QuangMinh_DoHuong" alt="QR Code">
+                <p class="small text-muted mt-2">Quét mã để gửi lời chúc & mừng cưới</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="../rsvp.html" class="text-decoration-none">← Quay lại tìm kiếm</a>
+        </div>
+    </div>
+
+    <script>
+        var API_BASE = (location.protocol === 'file:') ? 'http://localhost:3001' : '';
+
+        // Get guest info from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('name') || 'Khách mời';
+        const guestId = urlParams.get('guest_id') || '';
+        const guestCode = urlParams.get('code') || '';
+
+        document.getElementById('guestName').textContent = guestName;
+        if (guestCode) {
+            document.getElementById('guestCode').textContent = 'Mã khách: ' + guestCode;
+        } else {
+            document.getElementById('guestCode').style.display = 'none';
+        }
+
+        // Load guest events from API
+        var guestEventIds = [];
+        if (guestId) {
+            fetch(API_BASE + '/api/rsvp/invitation/' + encodeURIComponent(guestId))
+                .then(function(r) { return r.json(); })
+                .then(function(res) {
+                    if (!res.error && res.data) {
+                        // Store event IDs for RSVP submission
+                        guestEventIds = res.data.events.map(function(e) { return e.id; });
+
+                        // Update event details display if we have real data
+                        if (res.data.events.length > 0) {
+                            var html = '';
+                            res.data.events.forEach(function(ev) {
+                                var icon = ev.name.indexOf('Lễ') >= 0 ? '💒' : '🎊';
+                                if (ev.name.indexOf('Thành Hôn') >= 0) icon = '💍';
+                                html += '<div class="event-item">';
+                                html += '<div class="event-title">' + icon + ' ' + ev.name + '</div>';
+                                html += '<div class="event-info">';
+                                if (ev.location) html += '<div>📍 ' + ev.location + '</div>';
+                                if (ev.event_time && ev.event_date) html += '<div>🕐 ' + ev.event_time + ', ' + ev.event_date + '</div>';
+                                html += '</div></div>';
+                            });
+                            document.querySelector('.event-details').innerHTML =
+                                '<h5 class="text-center mb-3" style="color:#e91e63;">📅 THÔNG TIN SỰ KIỆN</h5>' + html;
+                        }
+
+                        // Show guest code from DB
+                        if (res.data.guest && res.data.guest.code) {
+                            document.getElementById('guestCode').textContent = 'Mã khách: ' + res.data.guest.code;
+                            document.getElementById('guestCode').style.display = '';
+                        }
+
+                        // If already confirmed, show success
+                        if (res.data.rsvp && res.data.rsvp.length > 0) {
+                            document.getElementById('confirmSection').style.display = 'none';
+                            var msg = document.getElementById('successMessage');
+                            msg.classList.add('show');
+                            msg.querySelector('h3').textContent = 'Bạn đã xác nhận trước đó!';
+                        }
+                    }
+                })
+                .catch(function(err) {
+                    console.error('Error loading guest data:', err);
+                });
+        }
+
+        function selectOption(element, value) {
+            document.querySelectorAll('.form-check-custom').forEach(function(el) { el.classList.remove('selected'); });
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+
+            if (value === 'yes') {
+                document.getElementById('plusOneSection').style.display = 'block';
+            } else {
+                document.getElementById('plusOneSection').style.display = 'none';
+            }
+        }
+
+        function submitConfirm() {
+            var attendance = document.querySelector('input[name="attendance"]:checked');
+            if (!attendance) {
+                alert('Vui lòng chọn xác nhận tham dự!');
+                return;
+            }
+
+            var attendanceStatus = (attendance.value === 'yes') ? 1 : 2;
+            var plusOnes = parseInt(document.getElementById('plusOnes').value) || 0;
+
+            // Determine event IDs to submit
+            var eventIds = guestEventIds.length > 0 ? guestEventIds : [
+                '6940cad0b958151b4504168d',
+                '6940cad0b958151b4504168c',
+                '6940cad0b958151b4504168e',
+                '6940cad0b958151b4504168f'
+            ];
+
+            var btn = document.querySelector('.btn-confirm');
+            btn.disabled = true;
+            btn.textContent = 'Đang xử lý...';
+
+            if (guestId) {
+                // Known guest - use /api/rsvp/confirm
+                var body = new URLSearchParams();
+                body.append('guest_id', guestId);
+                eventIds.forEach(function(eid) { body.append('event_ids', eid); });
+                eventIds.forEach(function() { body.append('attendance_status', attendanceStatus); });
+                eventIds.forEach(function() { body.append('plus_ones', plusOnes); });
+
+                fetch(API_BASE + '/api/rsvp/confirm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body.toString()
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(res) {
+                    if (res.error) {
+                        alert('Lỗi: ' + (res.message || 'Không thể xác nhận'));
+                        btn.disabled = false;
+                        btn.textContent = '✨ Xác Nhận ✨';
+                    } else {
+                        document.getElementById('confirmSection').style.display = 'none';
+                        document.getElementById('successMessage').classList.add('show');
+                    }
+                })
+                .catch(function(err) {
+                    alert('Lỗi kết nối: ' + err.message);
+                    btn.disabled = false;
+                    btn.textContent = '✨ Xác Nhận ✨';
+                });
+            } else {
+                // Unknown guest (no guest_id) - use /free-confirm
+                var body = new URLSearchParams();
+                body.append('name', guestName);
+                eventIds.forEach(function(eid) { body.append('event_ids', eid); });
+                eventIds.forEach(function() { body.append('attendance_status', attendanceStatus); });
+                eventIds.forEach(function() { body.append('plus_ones', plusOnes); });
+
+                fetch(API_BASE + '/free-confirm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: body.toString()
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(res) {
+                    if (res.error) {
+                        alert('Lỗi: ' + (res.message || 'Không thể xác nhận'));
+                        btn.disabled = false;
+                        btn.textContent = '✨ Xác Nhận ✨';
+                    } else {
+                        document.getElementById('confirmSection').style.display = 'none';
+                        document.getElementById('successMessage').classList.add('show');
+                    }
+                })
+                .catch(function(err) {
+                    alert('Lỗi kết nối: ' + err.message);
+                    btn.disabled = false;
+                    btn.textContent = '✨ Xác Nhận ✨';
+                });
+            }
+        }
+    </script>
+</body>
+</html>

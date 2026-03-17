@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Wedding Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e91e63;
+            --primary-dark: #c2185b;
+        }
+        body { background: #f5f5f5; }
+        .sidebar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 4px 10px;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        .sidebar .nav-link i { margin-right: 10px; }
+        .stat-card {
+            border-radius: 15px;
+            border: none;
+            transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .table-card {
+            border-radius: 15px;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        .badge-attending { background: #4caf50; }
+        .badge-not-attending { background: #f44336; }
+        .badge-pending { background: #ff9800; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar p-0">
+                <div class="logo-text">
+                    💒 Wedding Admin
+                </div>
+                <nav class="nav flex-column mt-3">
+                    <a class="nav-link active" href="#" data-page="dashboard">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                    <a class="nav-link" href="#" data-page="guests">
+                        <i class="bi bi-people"></i> Khách mời
+                    </a>
+                    <a class="nav-link" href="#" data-page="rsvp">
+                        <i class="bi bi-check2-circle"></i> Xác nhận tham dự
+                    </a>
+                    <a class="nav-link" href="#" data-page="wishes">
+                        <i class="bi bi-chat-heart"></i> Lời chúc
+                    </a>
+                    <a class="nav-link" href="#" data-page="events">
+                        <i class="bi bi-calendar-event"></i> Sự kiện
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10 p-4">
+                <!-- Dashboard -->
+                <div id="page-dashboard" class="page-section active">
+                    <h4 class="mb-4">📊 Dashboard</h4>
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="card stat-card shadow-sm">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-0" id="stat-guests">0</h3>
+                                        <small class="text-muted">Khách mời</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card shadow-sm">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="stat-icon bg-success bg-opacity-10 text-success me-3">
+                                        <i class="bi bi-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-0" id="stat-attending">0</h3>
+                                        <small class="text-muted">Sẽ tham dự</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card shadow-sm">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="stat-icon bg-warning bg-opacity-10 text-warning me-3">
+                                        <i class="bi bi-hourglass-split"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-0" id="stat-pending">0</h3>
+                                        <small class="text-muted">Chưa xác nhận</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card shadow-sm">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="stat-icon bg-info bg-opacity-10 text-info me-3">
+                                        <i class="bi bi-chat-heart"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="mb-0" id="stat-wishes">0</h3>
+                                        <small class="text-muted">Lời chúc</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RSVP by Event -->
+                    <div class="card table-card shadow-sm mb-4">
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0">📅 Thống kê theo sự kiện</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Sự kiện</th>
+                                        <th>Tham dự</th>
+                                        <th>Người đi cùng</th>
+                                        <th>Không tham dự</th>
+                                        <th>Tổng người</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="event-stats-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card table-card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h6 class="mb-0">🆕 Xác nhận gần đây</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="recent-rsvp"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card table-card shadow-sm">
+                                <div class="card-header bg-white">
+                                    <h6 class="mb-0">💌 Lời chúc gần đây</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="recent-wishes"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guests Page -->
+                <div id="page-guests" class="page-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4>👥 Quản lý Khách mời</h4>
+                        <div>
+                            <button class="btn btn-outline-success me-2" onclick="showImportModal('guests')">
+                                <i class="bi bi-upload"></i> Import Excel
+                            </button>
+                            <button class="btn btn-success me-2" onclick="exportGuests()">
+                                <i class="bi bi-file-earmark-excel"></i> Xuất Excel
+                            </button>
+                            <button class="btn btn-primary" onclick="showGuestModal()">
+                                <i class="bi bi-plus-lg"></i> Thêm khách
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card table-card shadow-sm">
+                        <div class="card-header bg-white">
+                            <input type="text" class="form-control" id="guest-search" placeholder="🔍 Tìm kiếm theo tên, SĐT, mã khách...">
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mã</th>
+                                        <th>Họ tên</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Email</th>
+                                        <th>Sự kiện</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="guests-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RSVP Page -->
+                <div id="page-rsvp" class="page-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4>✅ Xác nhận tham dự</h4>
+                        <div>
+                            <button class="btn btn-outline-success me-2" onclick="showImportModal('rsvp')">
+                                <i class="bi bi-upload"></i> Import Excel
+                            </button>
+                            <button class="btn btn-success" onclick="exportRsvp()">
+                                <i class="bi bi-file-earmark-excel"></i> Xuất Excel
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card table-card shadow-sm">
+                        <div class="card-header bg-white">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select class="form-select" id="rsvp-event-filter">
+                                        <option value="">Tất cả sự kiện</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-select" id="rsvp-status-filter">
+                                        <option value="">Tất cả trạng thái</option>
+                                        <option value="1">Sẽ tham dự</option>
+                                        <option value="0">Chưa xác định</option>
+                                        <option value="2">Không tham dự</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Họ tên</th>
+                                        <th>SĐT</th>
+                                        <th>Sự kiện</th>
+                                        <th>Trạng thái</th>
+                                        <th>Người đi cùng</th>
+                                        <th>Ngày xác nhận</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rsvp-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wishes Page -->
+                <div id="page-wishes" class="page-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4>💌 Lời chúc</h4>
+                        <div>
+                            <button class="btn btn-outline-success me-2" onclick="showImportModal('wishes')">
+                                <i class="bi bi-upload"></i> Import Excel
+                            </button>
+                            <button class="btn btn-success" onclick="exportWishes()">
+                                <i class="bi bi-file-earmark-excel"></i> Xuất Excel
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card table-card shadow-sm">
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Người gửi</th>
+                                        <th>Nội dung</th>
+                                        <th>Ngày gửi</th>
+                                        <th>Trạng thái</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="wishes-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Page -->
+                <div id="page-events" class="page-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4>📅 Quản lý Sự kiện</h4>
+                        <button class="btn btn-primary" onclick="showEventModal()">
+                            <i class="bi bi-plus-lg"></i> Thêm sự kiện
+                        </button>
+                    </div>
+                    <div class="row" id="events-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guest Modal -->
+    <div class="modal fade" id="guestModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="guestModalTitle">Thêm khách mời</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="guestForm">
+                        <input type="hidden" id="guest-id">
+                        <div class="mb-3">
+                            <label class="form-label">Họ tên *</label>
+                            <input type="text" class="form-control" id="guest-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="text" class="form-control" id="guest-phone">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="guest-email">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Sự kiện</label>
+                            <div id="guest-events-checkboxes"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea class="form-control" id="guest-notes" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveGuest()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div class="modal fade" id="eventModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalTitle">Thêm sự kiện</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="eventForm">
+                        <input type="hidden" id="event-id">
+                        <div class="mb-3">
+                            <label class="form-label">Tên sự kiện *</label>
+                            <input type="text" class="form-control" id="event-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mô tả</label>
+                            <textarea class="form-control" id="event-description" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Địa điểm</label>
+                            <input type="text" class="form-control" id="event-location">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Link bản đồ</label>
+                            <input type="url" class="form-control" id="event-location-url">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Ngày</label>
+                                <input type="date" class="form-control" id="event-date">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Giờ</label>
+                                <input type="time" class="form-control" id="event-time">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">URL hình ảnh</label>
+                            <input type="url" class="form-control" id="event-image-url" placeholder="https://...">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEvent()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div class="modal fade" id="importModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importModalTitle">Import dữ liệu từ Excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Chọn file Excel (.xlsx)</label>
+                        <input type="file" class="form-control" id="import-file" accept=".xlsx,.xls" onchange="handleImportFile()">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Chế độ import</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="importMode" id="mode-replace" value="replace" checked>
+                            <label class="form-check-label" for="mode-replace">
+                                <strong>Ghi đè</strong> - Xóa toàn bộ dữ liệu cũ, thay bằng dữ liệu từ file
+                            </label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="radio" name="importMode" id="mode-append" value="append">
+                            <label class="form-check-label" for="mode-append">
+                                <strong>Bổ sung</strong> - Giữ nguyên dữ liệu cũ, thêm dữ liệu từ file
+                            </label>
+                        </div>
+                    </div>
+                    <div id="import-preview" class="alert alert-info d-none">
+                        <i class="bi bi-info-circle"></i> <span id="import-preview-text"></span>
+                    </div>
+                    <div id="import-error" class="alert alert-danger d-none"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-success" id="import-confirm-btn" onclick="confirmImport()" disabled>
+                        <i class="bi bi-upload"></i> Xác nhận Import
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
