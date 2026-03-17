@@ -103,16 +103,22 @@ async function initialize() {
   if (!eventCount.length || eventCount[0].values[0][0] === 0) {
     const now = new Date().toISOString();
     const events = [
-      ['6940cad0b958151b4504168d', 'Tiệc Cưới Nhà Gái', 'Tư Gia Nhà Gái', 'Hẻm 52 - Ngõ 11 Hà Huy Tập - Khu Hàm Nghi - Phường Việt Trì', 'https://maps.app.goo.gl/r98qq9tn8TgdQfQm8', '2026-03-28', '16:00', 'https://cdn.biihappy.com/ziiweb/website/6940cad0b958151b45041694/7e8bc86b281eeb4b2b9130c30ab0ce72.jpeg'],
-      ['6940cad0b958151b4504168c', 'Lễ Vu Quy', 'Tư Gia Nhà Gái', 'Hẻm 52 - Ngõ 11 Hà Huy Tập - Khu Hàm Nghi - Phường Việt Trì', 'https://maps.app.goo.gl/r98qq9tn8TgdQfQm8', '2026-03-29', '09:00', 'https://cdn.biihappy.com/ziiweb/website/6940cad0b958151b45041694/9d6a21b923f8b9d7d1914ecd51883dd3.jpeg'],
-      ['6940cad0b958151b4504168e', 'Tiệc Cưới Nhà Trai', 'Tư Gia Nhà Trai', 'Tổ 3A - Khu Hương Trầm - Phường Việt Trì', 'https://maps.app.goo.gl/HXWTjSnmkEjCNqby9', '2026-03-28', '16:30', 'https://cdn.biihappy.com/ziiweb/website/6940cad0b958151b45041694/7d6da814c8c922041d9cca603564a261.jpeg'],
-      ['6940cad0b958151b4504168f', 'Lễ Thành Hôn', 'Tư Gia Nhà Trai', 'Tổ 3A - Khu Hương Trầm - Phường Việt Trì', 'https://maps.app.goo.gl/HXWTjSnmkEjCNqby9', '2026-03-29', '10:00', 'https://cdn.biihappy.com/ziiweb/website/6940cad0b958151b45041694/a7ffd095175f84b9703cb58204c03915.jpeg'],
+      ['6940cad0b958151b4504168d', 'Tiệc Cưới Nhà Gái', 'Tư Gia Nhà Gái', 'Hẻm 52 - Ngõ 11 Hà Huy Tập - Khu Hàm Nghi - Phường Việt Trì', 'https://maps.app.goo.gl/r98qq9tn8TgdQfQm8', '2026-03-28', '16:00', '/asset/Couple%20Section/girl.JPG'],
+      ['6940cad0b958151b4504168c', 'Lễ Vu Quy', 'Tư Gia Nhà Gái', 'Hẻm 52 - Ngõ 11 Hà Huy Tập - Khu Hàm Nghi - Phường Việt Trì', 'https://maps.app.goo.gl/r98qq9tn8TgdQfQm8', '2026-03-29', '09:00', '/asset/Gallery/image1.JPG'],
+      ['6940cad0b958151b4504168e', 'Tiệc Cưới Nhà Trai', 'Tư Gia Nhà Trai', 'Tổ 3A - Khu Hương Trầm - Phường Việt Trì', 'https://maps.app.goo.gl/HXWTjSnmkEjCNqby9', '2026-03-28', '16:30', '/asset/Couple%20Section/boy.JPG'],
+      ['6940cad0b958151b4504168f', 'Lễ Thành Hôn', 'Tư Gia Nhà Trai', 'Tổ 3A - Khu Hương Trầm - Phường Việt Trì', 'https://maps.app.goo.gl/HXWTjSnmkEjCNqby9', '2026-03-29', '10:00', '/asset/Gallery/image2.JPG'],
     ];
     for (const e of events) {
       db.run('INSERT INTO events (id, name, description, location, location_url, event_date, event_time, image_url, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [...e, now]);
     }
     console.log('Default events inserted');
+  } else {
+    // Migrate existing event image URLs to local assets
+    db.run("UPDATE events SET image_url = '/asset/Couple%20Section/girl.JPG' WHERE id = '6940cad0b958151b4504168d'");
+    db.run("UPDATE events SET image_url = '/asset/Gallery/image1.JPG' WHERE id = '6940cad0b958151b4504168c'");
+    db.run("UPDATE events SET image_url = '/asset/Couple%20Section/boy.JPG' WHERE id = '6940cad0b958151b4504168e'");
+    db.run("UPDATE events SET image_url = '/asset/Gallery/image2.JPG' WHERE id = '6940cad0b958151b4504168f'");
   }
 
   // Seed sample guests matching frontend fake data

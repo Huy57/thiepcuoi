@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static files for admin panel
 app.use('/admin', express.static(path.join(__dirname, 'public/admin')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/asset', express.static(path.join(__dirname, 'asset')));
 
 // Serve frontend wedding website
 // Priority: ./public/wedding (deploy) > ../nguyenhungtrangmy2812.iwedding.info (dev)
