@@ -103,22 +103,14 @@ async function initialize() {
   if (!eventCount.length || eventCount[0].values[0][0] === 0) {
     const now = new Date().toISOString();
     const events = [
-      ['6940cad0b958151b4504168d', 'Tiệc Cưới Nhà Gái', 'Tư Gia Nhà Gái', 'Hẻm 52 - Ngõ 11 Hà Huy Tập - Khu Hàm Nghi - Phường Việt Trì', 'https://maps.app.goo.gl/r98qq9tn8TgdQfQm8', '2026-03-28', '16:00', '/asset/Couple%20Section/girl.JPG'],
-      ['6940cad0b958151b4504168c', 'Lễ Vu Quy', 'Tư Gia Nhà Gái', 'Hẻm 52 - Ngõ 11 Hà Huy Tập - Khu Hàm Nghi - Phường Việt Trì', 'https://maps.app.goo.gl/r98qq9tn8TgdQfQm8', '2026-03-29', '09:00', '/asset/Gallery/image1.JPG'],
-      ['6940cad0b958151b4504168e', 'Tiệc Cưới Nhà Trai', 'Tư Gia Nhà Trai', 'Tổ 3A - Khu Hương Trầm - Phường Việt Trì', 'https://maps.app.goo.gl/HXWTjSnmkEjCNqby9', '2026-03-28', '16:30', '/asset/Couple%20Section/boy.JPG'],
-      ['6940cad0b958151b4504168f', 'Lễ Thành Hôn', 'Tư Gia Nhà Trai', 'Tổ 3A - Khu Hương Trầm - Phường Việt Trì', 'https://maps.app.goo.gl/HXWTjSnmkEjCNqby9', '2026-03-29', '10:00', '/asset/Gallery/image2.JPG'],
+      ['6940cad0b958151b4504168c', 'Lễ Vu Quy Nhà Gái', 'Tư Gia Nhà Gái', 'Thôn Thống Nhất, xã Hải Lựu, Vĩnh Phúc', 'https://maps.app.goo.gl/cEGFeqWuEUquC6ge7', '2026-03-29', '10:00', '/asset/Couple%20Section/girl.JPG'],
+      ['6940cad0b958151b4504168f', 'Lễ Thành Hôn', 'Tư Gia Nhà Trai', 'Thôn Dân Chủ, xã Hải Lựu, Vĩnh Phúc', 'https://maps.app.goo.gl/58wiykWxRptHLok99', '2026-03-29', '11:00', '/asset/Gallery/image2.JPG'],
     ];
     for (const e of events) {
       db.run('INSERT INTO events (id, name, description, location, location_url, event_date, event_time, image_url, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [...e, now]);
     }
     console.log('Default events inserted');
-  } else {
-    // Migrate existing event image URLs to local assets
-    db.run("UPDATE events SET image_url = '/asset/Couple%20Section/girl.JPG' WHERE id = '6940cad0b958151b4504168d'");
-    db.run("UPDATE events SET image_url = '/asset/Gallery/image1.JPG' WHERE id = '6940cad0b958151b4504168c'");
-    db.run("UPDATE events SET image_url = '/asset/Couple%20Section/boy.JPG' WHERE id = '6940cad0b958151b4504168e'");
-    db.run("UPDATE events SET image_url = '/asset/Gallery/image2.JPG' WHERE id = '6940cad0b958151b4504168f'");
   }
 
   // Seed sample guests matching frontend fake data
@@ -126,11 +118,11 @@ async function initialize() {
   if (!guestCount.length || guestCount[0].values[0][0] === 0) {
     const now = new Date().toISOString();
     const guests = [
-      [uuidv4(), 'Nguyễn Văn An', '0901234567', '', 'KM001', '6940cad0b958151b4504168d'],
-      [uuidv4(), 'Trần Thị Bình', '0912345678', '', 'KM002', '6940cad0b958151b4504168c'],
-      [uuidv4(), 'Lê Hoàng Nam', '0923456789', '', 'KM003', '6940cad0b958151b4504168e'],
+      [uuidv4(), 'Nguyễn Văn An', '0901234567', '', 'KM001', '6940cad0b958151b4504168c'],
+      [uuidv4(), 'Trần Thị Bình', '0912345678', '', 'KM002', '6940cad0b958151b4504168f'],
+      [uuidv4(), 'Lê Hoàng Nam', '0923456789', '', 'KM003', '6940cad0b958151b4504168c'],
       [uuidv4(), 'Phạm Minh Tuấn', '0934567890', '', 'KM004', '6940cad0b958151b4504168f'],
-      [uuidv4(), 'Hoàng Thị Mai', '0945678901', '', 'KM005', '6940cad0b958151b4504168d'],
+      [uuidv4(), 'Hoàng Thị Mai', '0945678901', '', 'KM005', '6940cad0b958151b4504168c'],
     ];
     for (const g of guests) {
       db.run('INSERT INTO guests (id, name, phone, email, code, event_ids, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
